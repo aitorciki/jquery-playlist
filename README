@@ -1,0 +1,42 @@
+JQuery Playlist Plugin - Playlist support for audio and video tags.
+
+HTML5 audio and video tags don't handle media playlists like m3u and others. This plugin is intended to provide a playlist parsing mechanism that will feed the audio/video tags with single media files they can handle. Limited navigation through the files included in the playlist is provided as well.
+
+The plugin uses an AJAX request to get the playlist file, then parses it and passes the contents to the players. If the playlist is served from a remote server, a "proxy" will be needed since performing cross-domain request with AJAX is not allowed.
+
+The proxy file is really easy to write: it just needs to accept a GET parameter called 'url', get the contents of this url and dump them. A sample PHP proxy file is included.
+
+Parsers for different playlists can be added. A parser is just a function that accepts a string (the playlist content) as a parameter and returns an array of urls that will be passed to the player. A m3u playlist parser is provided.
+
+Usage:
+
+Just include the plugin file after JQuery as with any other JQuery plugin.
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.playlist.js"></script>
+
+Use JQuery selectors to choose which audio or video tags need playlist parsing.
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('video').playlistParser();
+    });
+</script>
+
+<video id="video1" src="http://remote/list.m3u" width="768" height="432"></video>
+<video id="video2" src="http://remote/list2.m3u" width="768" height="432"></video>
+
+The plugin allows some customization, these are the supported options:
+
+* proxy: path_to_proxy_file (example: 'proxy.php')
+The proxy file to use to get the contents of a remote playlist. An
+AJAX GET request will be performed to the requested path.
+
+* parsers: {
+    list_extension: function, (example: m3u: my_m3u_parser)
+}
+As many playlists parsers as needed can be registered.
+
+* navArrows: (true|false)
+Enables the navigation through files by adding navigation arrows on top of the player.
+Note: in WebKit based browsers the arrows positioning will fail if no width and height are specified for the video element.
