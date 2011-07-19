@@ -101,7 +101,7 @@
 
         return this.each(function() {
             var player = this;
-            var src = player.src;
+            var src = player.currentSrc;
             var extension = fileExtension(src);
             var playlist = new Array();
             var current = -1;
